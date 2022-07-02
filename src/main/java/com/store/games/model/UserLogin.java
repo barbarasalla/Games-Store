@@ -8,7 +8,6 @@ public class UserLogin {
 	private String name;
 	private String userName;
 	private String password;
-	private LocalDate birth;
 	private String photo;
 	private String userType;
 	private String token;
@@ -38,12 +37,7 @@ public class UserLogin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public LocalDate getBirth() {
-		return birth;
-	}
-	public void setBirth(LocalDate birth) {
-		this.birth = birth;
-	}
+
 	public String getPhoto() {
 		return photo;
 	}

@@ -51,7 +51,6 @@ public class UserService {
 				userLogin.get().setId(searchUser.get().getId());
 				userLogin.get().setName(searchUser.get().getName());
 				userLogin.get().setPhoto(searchUser.get().getPhoto());
-				userLogin.get().setBirth(searchUser.get().getBirth());
 				userLogin.get().setUserType(searchUser.get().getUserType());
 				userLogin.get().setToken(createBasicToken(userLogin.get().getUserName(), userLogin.get().getPassword()));
 				userLogin.get().setPassword(searchUser.get().getPassword());
