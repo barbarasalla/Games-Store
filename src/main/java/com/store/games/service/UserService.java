@@ -30,9 +30,6 @@ public class UserService {
 		if(checkAge(user.getBirth())<18) 
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Age less than 18 years.");
 		
-		if(user.getPhoto().isBlank())
-			user.setPhoto("https://imgur.com/a/2AhO3I6.png");
-		
 		user.setPassword(encryptPassword(user.getPassword()));
 		
 		return Optional.ofNullable(userRepository.save(user));			
