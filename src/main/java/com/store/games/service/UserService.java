@@ -27,8 +27,10 @@ public class UserService {
 		if(userRepository.findByUserName(user.getUserName()).isPresent())
 			return Optional.empty();
 		
-		if(checkAge(user.getBirth())<18) 
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Age less than 18 years.");
+		int idade = Period.between(user.getBirth(), LocalDate.now()).getYears();
+
+		if (idade < 18)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Usuário é menor de idade!", null);
 		
 		user.setPassword(encryptPassword(user.getPassword()));
 		
@@ -70,11 +72,10 @@ public class UserService {
 		if(searchUser.isPresent() && (searchUser.get().getId() != user.getId()))
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists!!", null);
 		
-		if(checkAge(user.getBirth()) < 18)
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Age is less than 18 years");
+		int idade = Period.between(user.getBirth(), LocalDate.now()).getYears();
 		
-		if(user.getPhoto().isBlank())
-			user.setPhoto("https://imgur.com/a/2AhO3I6.png");
+		if (idade < 18)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Usuário é menor de idade!", null);
 		
 		user.setPassword(encryptPassword(user.getPassword()));
 		
@@ -85,10 +86,6 @@ public class UserService {
 		
 	}
 	
-	private int checkAge(LocalDate birth) {
-
-		return Period.between(birth, LocalDate.now()).getYears();
-	}
 	
 	private String encryptPassword(String password) {
 

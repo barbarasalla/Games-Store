@@ -1,7 +1,5 @@
 package com.store.games.model;
 
-import java.time.LocalDate;
-
 public class UserLogin {
 	
 	private long id;
