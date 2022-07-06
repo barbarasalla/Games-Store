@@ -79,10 +79,10 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();	
 	}
 	
-	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)	
 	public void delete(@PathVariable long id) {
-		Optional<Product> product = productRepository.findById(null);
+		Optional<Product> product = productRepository.findById(id);
 		if(product.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		productRepository.deleteById(id);
