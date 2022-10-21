@@ -2,14 +2,9 @@ package com.store.games.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -19,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tb_gamestore")
+@Table(name="tb_product")
 public class Product {
 	
 	@Id
@@ -54,6 +49,10 @@ public class Product {
 	@ManyToOne
 	@JsonIgnoreProperties("product")
 	private Category category;
+
+	@OneToMany(mappedBy="product", cascade= CascadeType.ALL)
+	@JsonIgnoreProperties("product")
+	private List<Review> review;
 
 	public long getId() {
 		return id;
@@ -127,4 +126,10 @@ public class Product {
 		this.category = category;
 	}
 
+	public List<Review> getReview() {
+		return review;
+	}
+	public void setReview(List<Review> review) {
+		this.review = review;
+	}
 }

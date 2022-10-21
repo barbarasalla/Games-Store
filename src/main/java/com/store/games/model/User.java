@@ -1,13 +1,9 @@
 package com.store.games.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,6 +11,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
@@ -27,15 +24,18 @@ public class User {
 	
 	@NotBlank
 	@Size(min=3)
+	@Column(name = "name")
 	private String name;
 	
 	@Schema
 	@NotNull
 	@Email(message = "O Usuário deve ser um email válido!")
+	@Column(name = "userName")
 	private String userName;
 	
 	@NotBlank
 	@Size(min=5)
+	@Column(name = "password")
 	private String password;
 	
 	
@@ -43,11 +43,17 @@ public class User {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@NotNull
 	private LocalDate birth;
-	
+
+	@Column(name = "photo")
 	private String photo;
 	
 	@NotNull
+	@Column(name = "userType")
 	private String userType;
+
+	@OneToMany(mappedBy="user", cascade= CascadeType.ALL)
+	@JsonIgnoreProperties("user")
+	private List<Review> review;
 
 	public long getId() {
 		return id;
@@ -105,4 +111,11 @@ public class User {
 		this.userType = userType;
 	}
 
+	public List<Review> getReview() {
+		return review;
+	}
+
+	public void setReview(List<Review> review) {
+		this.review = review;
+	}
 }
