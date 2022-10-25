@@ -45,6 +45,9 @@ public class Product {
 	
 	@NotNull
 	private Integer stock;
+
+	@Column(columnDefinition = "integer default 0")
+	private int likes;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("product")
@@ -116,6 +119,14 @@ public class Product {
 
 	public void setStock(Integer stock) {
 		this.stock = stock;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 
 	public Category getCategory() {

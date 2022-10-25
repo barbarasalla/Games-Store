@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.store.games.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,9 @@ public class ProductController {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private ProductService productService;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Product>> GetAll(){
@@ -41,7 +45,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/product/{id}")
-	public ResponseEntity<Product> GetById(@PathVariable long id){
+	public ResponseEntity<Product> GetById(@PathVariable Long id){
 		return productRepository.findById(id)
 				.map(answer -> ResponseEntity.ok(answer))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -81,11 +85,21 @@ public class ProductController {
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)	
-	public void delete(@PathVariable long id) {
+	public void delete(@PathVariable Long id) {
 		Optional<Product> product = productRepository.findById(id);
 		if(product.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		productRepository.deleteById(id);
+	}
+
+	@PutMapping("disliked/{id}")
+	public ResponseEntity<Product> disliked (@PathVariable Long id){
+		return ResponseEntity.status(HttpStatus.OK).body(productService.disliker(id));
+	}
+
+	@PutMapping("liked/{id}")
+	public ResponseEntity<Product> liked (@PathVariable Long id){
+		return ResponseEntity.status(HttpStatus.OK).body(productService.liker(id));
 	}
 
 }
